@@ -1,0 +1,162 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --primary-color: #9eb2b2;
+  --primary-accent-color: #d9ffff;
+
+  --background-color: #000;
+  --secondary-background-color: #101010;
+
+  --border-color: #2e2e2e;
+
+  --border-radius: 1.25rem;
+
+  --accent: 136, 58, 234;
+  --accent-light: 224, 204, 250;
+  --accent-dark: 49, 10, 101;
+  --accent-gradient: linear-gradient(
+    45deg,
+    rgb(var(--accent)),
+    rgb(var(--accent-light)) 30%,
+    white 60%
+  );
+}
+
+html {
+  /* background: #13151a; */
+  background: #000;
+  background-size: 224px;
+}
+body {
+  color: var(--primary-color);
+  font-family: var(--font-satoshi);
+}
+
+h1 {
+  /* font-size: 8rem; */
+  font-size: calc(14px + 13vmin);
+  font-weight: 900;
+  line-height: 1.5;
+  color: var(--primary-color);
+  background: linear-gradient(97.13deg, var(--primary-color) 0%, #515151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+h3 {
+  /* font-size: 6rem; */
+  font-size: calc(14px + 1vmin);
+  font-weight: 500;
+  line-height: 1.4;
+  color: var(--primary-color);
+  opacity: 0.7;
+  background: linear-gradient(
+    97.13deg,
+    var(--primary-accent-color) 0%,
+    var(--primary-color) 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+h3.featured {
+  font-size: calc(14px + 2vmin);
+}
+
+h2 {
+  /* font-size: 3rem;*/
+  font-size: calc(14px + 4vmin);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--primary-color);
+  background: linear-gradient(97.13deg, var(--primary-color) 0%, #515151 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.text-accent {
+  color: var(--primary-accent-color);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+.border-theme {
+  border-color: var(--border-color);
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.grain {
+  z-index: 99;
+  opacity: 0.04;
+  mix-blend-mode: normal;
+  background-image: url(/images/grain.gif);
+  background-position: 0 0;
+  background-repeat: repeat;
+  background-size: auto;
+  background-attachment: fixed;
+  display: block;
+  position: fixed;
+  top: 0%;
+  bottom: 0%;
+  left: 0%;
+  right: 0%;
+  pointer-events: none;
+}
+
+.code-style {
+  background-color: var(--secondary-background-color);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.progress-bar-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(
+    --primary-color
+  ); /* Change this to your desired color */
+  transition: width 0.25s;
+}
