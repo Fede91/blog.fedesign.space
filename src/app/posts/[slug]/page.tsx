@@ -3,18 +3,23 @@ import { allPosts } from "contentlayer/generated";
 import { getMDXComponent } from "next-contentlayer/hooks";
 import ProgressBar from "@/components/ProgressBar";
 import { Article } from "@/components/Article";
+import Header from "@/components/Header";
 
 export const generateStaticParams = async () =>
   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 
 export const generateMetadata = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allPosts.find(
+    (post) => post._raw.flattenedPath === decodeURI(params.slug)
+  );
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
   return { title: post.title };
 };
 
 const PostLayout = ({ params }: { params: { slug: string } }) => {
-  const post = allPosts.find((post) => post._raw.flattenedPath === params.slug);
+  const post = allPosts.find(
+    (post) => post._raw.flattenedPath === decodeURI(params.slug)
+  );
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 
   // TODO: Add SEO and fix domain prefix
@@ -24,11 +29,12 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
 
   return (
     <div className="px-4 lg:px-0">
-      <article className="mx-auto max-w-2xl py-8 ">
+      <Header />
+      <article className="mx-auto max-w-2xl py-8 mt-16 ">
         <ProgressBar />
         <div className="mb-8 text-center">
           <time dateTime={post.date} className="mb-1 text-xs text-gray-600">
-            {format(parseISO(post.date), "LLLL d, yyyy")}6
+            {format(parseISO(post.date), "LLLL d, yyyy")}
           </time>
           <h1 className="text-3xl font-bold my-8">{post.title}</h1>
           {post.cover && (
@@ -127,7 +133,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
         </section>
       </article>
 
-      <section className="my-8">
+      <section className="my-8 mx-4">
         <h2 className="text-2xl font-bold mb-4">Read Next</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {allPosts
@@ -141,7 +147,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
                 url={post.url}
                 key={post._raw.flattenedPath}
                 tags={post.tags || []}
-                excerpt={post.excerpt}
+                excerpt={post?.excerpt?.split(" ").slice(0, 14).join(" ")}
               />
             ))}
         </div>

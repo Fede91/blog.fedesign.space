@@ -1,10 +1,10 @@
-import { BlogPosts } from "@/components/BlogPosts";
 import { compareDesc } from "date-fns";
-import { allPosts } from "contentlayer/generated";
+import { allPosts, Post } from "contentlayer/generated";
+import { BlogPosts } from "@/components/BlogPosts";
 import { Tag } from "@/app/assets/Tag";
 import Header from "@/components/Header";
 
-export default function Page({ params }: { params: { tag: string } }) {
+const Page = ({ params }: { params: { page: number; tag: string } }) => {
   const tag = decodeURI(params.tag);
 
   const posts = allPosts.sort((a, b) =>
@@ -19,7 +19,10 @@ export default function Page({ params }: { params: { tag: string } }) {
     new Set(posts.flatMap((post) => post.tags))
   ).filter(Boolean) as string[];
 
-  const paginatedPosts = filteredPosts.slice(0, 12);
+  const paginatedPosts = filteredPosts.slice(
+    12 * (Number(params.page) - 1),
+    Number(params.page) * 12
+  );
 
   const numPages = Math.ceil(filteredPosts.length / 12);
 
@@ -35,19 +38,17 @@ export default function Page({ params }: { params: { tag: string } }) {
             </h1>
           </div>
         </section>
-
-        {/* <!-- Posts --> */}
-        <section>
-          <BlogPosts
-            allTags={allTags}
-            currentPage={1}
-            numPages={numPages}
-            posts={paginatedPosts}
-            activeTag={tag}
-            basePath={`/tag/${tag}/page`}
-          />
-        </section>
+        <BlogPosts
+          posts={paginatedPosts}
+          allTags={allTags}
+          currentPage={Number(params.page)}
+          numPages={numPages}
+          basePath={`/tag/${tag}/page`}
+          activeTag={tag}
+        />
       </main>
     </>
   );
-}
+};
+
+export default Page;

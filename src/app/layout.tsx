@@ -70,7 +70,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${satoshi.variable}  antialiased`}>{children}</body>
+      <body className={`${satoshi.variable}  antialiased`}>
+        {children}
+
+        <div className="flex flex-col justify-center content-center shrink-0 mt-12 mb-8">
+          <p className="text-sm opacity-50 text-center">
+            Made with 🤍 by{" "}
+            <a href="https://fedesign.space" className="hover:underline">
+              @Me
+            </a>
+          </p>
+        </div>
+      </body>
     </html>
   );
 }

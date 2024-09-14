@@ -1,10 +1,10 @@
 import { Article } from "@/components/Article";
 import { Grain } from "@/components/Grain";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import { FeaturedPosts } from "./assets/FeaturedPosts";
 import { LastPosts } from "./assets/LastPosts";
 import { compareDesc } from "date-fns";
 import { allPosts, Post } from "contentlayer/generated";
+import { BlogPosts } from "@/components/BlogPosts";
 
 export default function Home() {
   const posts = allPosts.sort((a, b) =>
@@ -21,7 +21,12 @@ export default function Home() {
     otherFeaturedPosts = featuredPosts.slice(1, 3);
   }
 
-  console.log(posts);
+  const allTags = Array.from(
+    new Set(posts.flatMap((post) => post.tags))
+  ).filter(Boolean) as string[];
+
+  const paginatedPosts = posts.slice(0, 12);
+  const numPages = Math.ceil(posts.length / 12);
 
   return (
     <main>
@@ -84,190 +89,13 @@ export default function Home() {
           <LastPosts />
         </div>
 
-        <div className="w-full">
-          <h2 className="text-sm font-semibold uppercase text-typ-tone border-b border-brd mb-6 pb-2.5 sr-only">
-            Latest
-          </h2>
-          <div className="w-full mx-auto">
-            <nav className="mb-6">
-              <ul
-                role="list"
-                className="text-sm font-medium flex gap-1 overflow-x-scroll no-scrollbar pb-2.5"
-              >
-                <li>
-                  <a
-                    href="/"
-                    className="relative block text-nowrap px-3 py-1  border border-theme rounded-2xl sm:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone bg-[var(--secondary-background-color)] text-[var(--primary-accent-color)]"
-                    data-active=""
-                  >
-                    All posts
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/tag/features/"
-                    className="relative block text-nowrap px-3 py-1 border border-theme rounded-2xl sm:px-4 md:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone"
-                  >
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/tag/guides/"
-                    className="relative block text-nowrap px-3 py-1 border border-theme rounded-2xl sm:px-4 md:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone"
-                  >
-                    Guides
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/tag/tutorials/"
-                    className="relative block text-nowrap px-3 py-1 border border-theme rounded-2xl sm:px-4 md:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone"
-                  >
-                    Tutorials
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/tag/data-analysis/"
-                    className="relative block text-nowrap px-3 py-1 border border-theme rounded-2xl sm:px-4 md:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone"
-                  >
-                    Data analysis
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/tag/data-management/"
-                    className="relative block text-nowrap px-3 py-1 border border-theme rounded-2xl sm:px-4 md:px-4 after:content-[''] after:absolute after:bottom-[-11px] after:left-[calc(50%_-_16px)] after:w-8 after:h-0.5 after:rounded-t-sm after:bg-transparent hover:bg-bgr-tone"
-                  >
-                    Data management
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <div className="grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-            {posts.map((post) => (
-              <Article
-                key={post._id}
-                title={String(post.title)}
-                tags={post.tags || []}
-                cover={post.cover}
-                date={post?.date}
-                url={String(post?.url)}
-              />
-            ))}
-
-            {/* <article
-              className="post tag-guides tag-data-mapping  relative text-typ-tone flex flex-col gap-4"
-              data-post-card=""
-            >
-              <a href="/getting-started-with-orbit/" className="block">
-                <figure className="rounded-theme-xxs border border-brd overflow-hidden">
-                  <picture>
-                    <source
-                      srcSet="/content/images/size/w320/format/webp/2024/03/flair-post-9.png 320w, /content/images/size/w640/format/webp/2024/03/flair-post-9.png 600w, /content/images/size/w960/format/webp/2024/03/flair-post-9.png 960w"
-                      sizes="(max-width: 400px) 300px, 400px"
-                      type="image/webp"
-                    />
-                    <img
-                      className="aspect-[16/9] bg-bgr-tone object-cover w-full h-auto rounded-[inherit] will-change-[filter] transition-[filter]"
-                      loading="lazy"
-                      srcSet="/content/images/size/w320/format/webp/2024/03/flair-post-9.png 320w, /content/images/size/w640/format/webp/2024/03/flair-post-9.png 600w, /content/images/size/w960/format/webp/2024/03/flair-post-9.png 960w"
-                      sizes="(max-width: 400px) 300px, 400px"
-                      src="/content/images/size/w30/2024/03/flair-post-9.png"
-                      alt="Getting started with Orbit, your tool for comprehensive data mapping"
-                    />
-                  </picture>
-                </figure>
-              </a>
-
-              <div
-                className="flex h-full flex-col gap-2"
-                data-post-card-content=""
-              >
-                <div
-                  className="flex items-center flex-wrap gap-2 text-sm"
-                  data-post-card-info=""
-                >
-                  <a href="/tag/guides/" className="hover:text-brand">
-                    Guides
-                  </a>
-
-                  <span className="">·</span>
-
-                  <time className="">Mar 13, 2024</time>
-
-                  <span className="flex-1"></span>
-                </div>
-
-                <h3
-                  className="text-typ text-lg sm:text-xl font-semibold hover:text-brand "
-                  data-post-card-title=""
-                >
-                  <a href="/getting-started-with-orbit/" className="">
-                    Getting started with Orbit, your tool for comprehensive data
-                    mapping
-                  </a>
-                </h3>
-
-                <p className="font-light" data-post-card-excerpt="">
-                  Get started with Orbit for comprehensive data mapping,
-                  navigate your data landscape with precision and ease
-                </p>
-
-                <ul
-                  className="flex gap-3 text-sm font-medium mt-2"
-                  data-post-card-authors=""
-                >
-                  <li>
-                    <a
-                      href="/author/max/"
-                      className="flex gap-1.5 items-center hover:text-brand"
-                    >
-                      <picture>
-                        <source
-                          srcSet="/content/images/size/w30/format/webp/2024/03/max.png 30w, /content/images/size/w100/format/webp/2024/03/max.png 100w"
-                          sizes="24px"
-                          type="image/webp"
-                        />
-                        <img
-                          className="size-6 object-cover rounded-full will-change-[filter] transition-[filter]"
-                          loading="lazy"
-                          srcSet="/content/images/size/w30/format/webp/2024/03/max.png 30w, /content/images/size/w100/format/webp/2024/03/max.png 100w"
-                          sizes="24px"
-                          src="/content/images/size/w30/2024/03/max.png"
-                          alt=""
-                        />
-                      </picture>
-                      <span>Max Harmon</span>
-                    </a>
-                  </li>
-                </ul>
-              </div>
-              <RoundedContainer stroke="white" />
-            </article> */}
-          </div>
-
-          <nav
-            className="my-12 text-typ flex items-center justify-center gap-4 font-medium sm:font-normal text-sm sm:gap-6 "
-            data-pagination=""
-          >
-            <a className="text-sm font-medium flex items-center gap-0.5 border border-theme rounded-2xl px-3 py-1 sm:px-4 cursor-not-allowed disabled">
-              <ChevronLeft className="h-4 w-4" />
-              <span>Prev</span>
-            </a>
-            <span>Page 1 of 2</span>
-            <a
-              className="text-sm font-medium flex items-center gap-0.5 border border-theme rounded-2xl px-3 py-1 sm:px-4 hover:bg-bgr-tone"
-              href="/page/2/"
-            >
-              <span>Next</span>
-              <ChevronRight className="h-4 w-4" />
-            </a>
-          </nav>
-        </div>
+        <BlogPosts
+          posts={paginatedPosts}
+          allTags={allTags}
+          currentPage={1}
+          numPages={numPages}
+          basePath="/page"
+        />
       </section>
 
       <Grain />

@@ -160,3 +160,8 @@ a:hover {
   ); /* Change this to your desired color */
   transition: width 0.25s;
 }
+
+header {
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(8px);
+}
