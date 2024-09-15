@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Header = () => {
@@ -20,7 +21,9 @@ const Header = () => {
       }`}
     >
       <div className="bg-transparent backdrop-blur hover:backdrop-blur-md p-4">
-        <h1 className="text-xl font-bold">My Blog</h1>
+        <Link href="/">
+          <h1 className="text-xl font-bold">FeBlog</h1>
+        </Link>
       </div>
     </header>
   );

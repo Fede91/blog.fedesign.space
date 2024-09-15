@@ -3,6 +3,7 @@ import { compareDesc } from "date-fns";
 import { allPosts } from "contentlayer/generated";
 import { Tag } from "@/app/assets/Tag";
 import Header from "@/components/Header";
+import Head from "next/head";
 
 export default function Page({ params }: { params: { tag: string } }) {
   const tag = decodeURI(params.tag);
@@ -23,8 +24,38 @@ export default function Page({ params }: { params: { tag: string } }) {
 
   const numPages = Math.ceil(filteredPosts.length / 12);
 
+  const currentUrl = process.env.BASE_URL + "/tag/" + tag;
+
   return (
     <>
+      <Head>
+        <title>{`Posts tagged with "${tag}" - Page  1`}</title>
+        <meta
+          name="description"
+          content={`Browse posts tagged with "${tag}".`}
+        />
+        <link rel="canonical" href={currentUrl} />
+        <meta
+          property="og:title"
+          content={`Posts tagged with "${tag}" - Page 1`}
+        />
+        <meta
+          property="og:description"
+          content={`Browse posts tagged with "${tag}".`}
+        />
+        <meta property="og:url" content={currentUrl} />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content={`Posts tagged with "${tag}" - Page 1`}
+        />
+        <meta
+          name="twitter:description"
+          content={`Browse posts tagged with "${tag}".`}
+        />
+      </Head>
+
       <Header />
       <main className="px-4 mb-24 mt-24">
         <section className="px-4 sm:px-6 mb-8">
