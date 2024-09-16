@@ -41,8 +41,8 @@ export const FeBlog: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
         y2="84.168"
         gradientUnits="userSpaceOnUse"
       >
-        <stop stop-color="#9EB2B2" />
-        <stop offset="1" stop-color="#434C4C" />
+        <stop stopColor="#9EB2B2" />
+        <stop offset="1" stopColor="#434C4C" />
       </linearGradient>
     </defs>
   </svg>
