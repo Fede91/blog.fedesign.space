@@ -2,9 +2,10 @@ import React from "react";
 import { Article } from "./Article";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { Post } from "contentlayer/generated";
 
 type Props = {
-  posts: any[];
+  posts: Post[];
   currentPage: number;
   numPages: number;
   allTags: string[];

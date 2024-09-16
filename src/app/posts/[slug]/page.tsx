@@ -89,7 +89,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
               ol: (props) => (
                 <ol className="list-decimal list-inside my-4" {...props} />
               ),
-              hr: (props) => (
+              hr: () => (
                 <div
                   className="my-8"
                   style={{

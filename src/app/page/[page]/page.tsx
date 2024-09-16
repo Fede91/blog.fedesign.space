@@ -1,5 +1,5 @@
 import { compareDesc } from "date-fns";
-import { allPosts, Post } from "contentlayer/generated";
+import { allPosts } from "contentlayer/generated";
 import { BlogPosts } from "@/components/BlogPosts";
 import Header from "@/components/Header";
 import Head from "next/head";

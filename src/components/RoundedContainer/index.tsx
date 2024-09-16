@@ -1,5 +1,5 @@
 "use client";
-import React, { useRef, useEffect, useState, useMemo } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./style.css";
 
 type Props = {
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const RoundedContainer: React.FC<Props> = (props) => {
-  const { radius = 20, fill, stroke, style, variant = "card" } = props;
+  const { radius = 20, fill, stroke, variant = "card" } = props;
 
   const ref = useRef(null);
   const [dimensions, setDimensions] = useState({
