@@ -1,0 +1,123 @@
+---
+title: How to install NGINX as Reverse Proxy and setup Certbot on Amazon Linux 2023
+date: 2023-08-23
+tags:
+  - coding
+excerpt: Step-by-step guide to integrating NGINX as a reverse proxy with Certbot on Amazon Linux 2023.
+cover: https://cdn-images-1.medium.com/max/800/0*Gmc4ScKEs9VVhmfq
+---
+
+In the dynamic digital era, ensuring your site communicates via the HTTPS protocol is not only best practice — it’s required. NGINX is an agile web server known for its speed and reliability ([NGINX official documentation](https://docs.nginx.com/nginx/admin-guide/)). You have a solid foundation when combined with Certbot for certificate management. Let’s take a deep dive into configuring this dynamic duo on Amazon Linux 2023.
+
+#### Disclaimer
+
+We’re gearing up to install NGINX and Certbot for enlightening purposes. The configurations shared may need additional refinements for a robust production environment.
+
+#### Prerequisites:
+
+- A running AWS EC2 instance with Amazon Linux 2023.
+- A designated Elastic IP.
+
+New to AWS? Here’s [how to launch an EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EC2_GetStarted.html) and [assign an Elastic IP](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html).
+
+### Install and setup NGINX
+
+Establish an SSH connection with EC2 instance:
+
+```bash
+$ ssh -i ~/<PATH_TO_YOUR_PEM_FILE> ec2-user@<EC2_ELASTIC_IP>
+```
+
+Install NGINX and enable on startup:
+
+```bash
+$ sudo yum install nginx
+$ sudo systemctl enable nginx && sudo systemctl start nginx
+```
+
+Want NGINX to act as a reverse proxy? Here’s your guide to set it up to listen on port 80 and direct traffic to a service operating on port 5555.
+
+Access the NGINX configuration:
+
+```bash
+$ sudo nano /etc/nginx/nginx.conf
+```
+
+Change the value of YOUR_DOMAIN to the domain name connected with the EC2 instance (if any), and EC2_PRIVATE_IPV4_ADDRESS to the private IPv4 address of the EC2 instance, which can be retrieved via the AWS control panel:
+
+```nginx
+server {
+    listen       80;
+    listen       [::]:80;
+    server_name  <YOUR_DOMAIN>;
+    location / {
+        proxy_pass http://<EC2_PRIVATE_IPV4_ADDRESS>:5555;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+    }
+}
+```
+
+Save the file, validate the configuration and reboot the service:
+
+```bash
+$ sudo nginx -t
+$ sudo systemctl restart nginx
+```
+
+#### Security Concerns:
+
+It is essential to secure NGINX. Here are some important pointers:
+
+- Limit public access only to vital ports. AWS Security Groups documentation [here](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_SecurityGroups.html) can guide.
+- Deploy rate-limiting to deter DDoS attacks. Check [NGINX rate limiting](https://www.nginx.com/blog/rate-limiting-nginx/) for insights.
+- Always update NGINX and server components. The [NGINX update guide](https://www.nginx.com/resources/wiki/start/topics/tutorials/install/) can be handy.
+
+### Enter, Certbot
+
+For top-notch SSL/TLS security, Certbot is your ally. Let’s set it up:
+
+1. Initialize a Python virtual environment:
+
+```bash
+$ sudo python3 -m venv /opt/certbot/
+$ sudo /opt/certbot/bin/pip install --upgrade pip
+```
+
+2. Install Certbot:
+
+```bash
+$ sudo /opt/certbot/bin/pip install certbot certbot-nginx
+$ sudo ln -s /opt/certbot/bin/certbot /usr/bin/certbot
+```
+
+3. Let Certbot work its magic on NGINX:
+
+```bash
+sudo certbot --nginx
+```
+
+Following the certificate generation wizard, we will be able to access our EC2 instance via HTTPS using the address _https://EC2_ELASTIC_IP_ or _https://YOUR_DOMAIN_.
+
+**Troubleshooting:**
+
+- NGINX refusing to kick-off? Examine the error log: `$ sudo tail -f /var/log/nginx/error.log`.
+- Certbot errors? Validate DNS settings of your domain. Ensure port 80 is accessible. Certbot’s [official troubleshooting guide](https://certbot.eff.org/docs/using.html#problems-with-python-virtual-environment) can assist.
+- Unexpected 502 errors? Your backend service might be down.
+
+#### Automatic Renewal:
+
+To allow Certbot to automatically renew certificates, just execute the following command to add a cron job:
+
+```bash
+$ echo "0 0,12 * * * root /opt/certbot/bin/python -c 'import random; import time; time.sleep(random.random() * 3600)' && sudo certbot renew -q" | sudo tee -a /etc/crontab > /dev/null
+```
+
+### In Conclusion
+
+You’ve just turbocharged your Amazon Linux 2023 instance with NGINX and Certbot, ensuring a secure and responsive web service. For continuous learning and exploration, ensure you frequently visit the official documentation of the tools you work with.
+
+Feel free to **give me feedback or ask me questions** here using the comment function. Happy coding!

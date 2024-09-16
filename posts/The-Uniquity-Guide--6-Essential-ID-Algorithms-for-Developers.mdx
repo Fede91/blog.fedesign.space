@@ -1,0 +1,220 @@
+---
+title: "The Uniquity Guide: 6 Essential ID Algorithms for Developers"
+date: 2023-07-16
+tags:
+  - coding
+excerpt: Modern software development relies heavily on unique ID techniques, which make it possible to create identities that are globally unique…
+cover: https://cdn-images-1.medium.com/max/800/0*pEipDy2LOBuuoor3.png
+---
+
+Modern software development relies heavily on unique ID techniques, which make it possible to create identities that are globally unique, scalable, and appropriate for distributed systems. We will examine a number of well-known unique ID algorithms in this post, including UUID, Snowflake ID, GUID, ObjectId, Flake ID, and ULID. We will examine their attributes, usage cases, and illustrations to offer insights into their usefulness and advantages.
+
+## An explanation of Unique ID algorithms
+
+### UUID (Universally Unique Identifier)
+
+The Open Software Foundation (OSF) has standardised the UUID, a popular 128-bit identifier. It is represented as a string of alphanumeric characters and guarantees uniqueness across dispersed systems.
+
+> _Example: “550e8400-e29b-41d4-a716–446655440000”_
+
+**Advantages:**
+
+- UUIDs are made to be universally unique, which reduces the possibility of collisions even in distributed systems. This characteristic makes it extremely hard for any produced UUID to match any existing UUID.
+- UUIDs are widely recognised and supported across a variety of programming languages and frameworks as a result of the Open Software Foundation’s standardisation of them. Interoperability enables smooth compatibility and integration across many platforms.
+- Randomness and Low Collision Probability: By using a timestamp, a machine identifier, and random bits, the approach produces a wide namespace and a very low collision probability. In situations where unique identification is essential, such as database primary keys, this trait is essential.
+
+**Disadvantages:**
+
+- UUIDs are made to be universally unique, which reduces the possibility of collisions even in distributed systems. This characteristic makes it extremely hard for any produced UUID to match any existing UUID.
+- UUIDs are widely recognised and supported across a variety of programming languages and frameworks as a result of the Open Software Foundation’s standardisation of them. Interoperability enables smooth compatibility and integration across many platforms.
+- Randomness and Low Collision Probability: By using a timestamp, a machine identifier, and random bits, the approach produces a wide namespace and a very low collision probability. In situations where unique identification is essential, such as database primary keys, this trait is essential.
+
+**Variants UUIDv1 (Time-based UUID):**
+
+This variation creates a distinctive identification by fusing the computer’s MAC address and the present timestamp. It contains the timestamp in the first 60 bits, which may raise privacy issues.
+
+> _Take this as an example: “6e32b072–27de-11ec-8d3d-0242ac130003”_
+
+_Advantages:_
+
+- Includes a timestamp, making time-based computations and sorting simple.
+- Because the MAC address and timestamp are combined, the uniqueness is rather high.
+
+_Disadvantages:_
+
+- Due to the presence of MAC address information, there may be privacy issues.
+- Just one UUID may be produced per timestamp and MAC address.
+
+**UUIDv2 (DCE Security UUID):**
+
+This variation incorporates a POSIX UID/GID as part of the identification and is based on the DCE 1.1 specification. It is not favoured for general-purpose UUID creation and is not generally utilised.
+
+> _“2b6cbeec-8a8d-211c-b05f-726d7c7a3a05” is an example._
+
+_Advantages:_
+
+- Enables security and access control by combining UUID with POSIX UID/GID.
+
+_Disadvantages:_
+
+- For general-purpose UUID creation, neither is frequently used nor advised.
+- Depending on the DCE environment’s particular implementation and situation.
+
+**UUIDv3 (Name-based UUID using MD5 hashing)**
+
+This variation creates a UUID from a name (a string) and a namespace identifier (usually a UUID). It creates a 128-bit hash using the MD5 hashing technique to ensure uniqueness inside the namespace.
+
+> _“a4c2ac29–463b-3e8b-b79d-1b6e8db2edc7” is an example._
+
+_Advantages:_
+
+- Based on a namespace identifier and a name, generates a deterministic UUID.
+- Guarantees exclusivity inside the designated namespace.
+
+_Disadvantages:_
+
+- Uses a hashing method called MD5 that is less secure.
+- Restricted to MD5’s individuality and collision resistance.
+
+**UUIDv4 (Random UUID)**
+
+The numbers used to produce this version are random or pseudo-random. It offers a high possibility of uniqueness but omits any important data, such timestamps or names.
+
+> _Take this as an example: “ef72e537–01b2–4785–9e62-fcdd2be06c2e”_
+
+_Advantages:_
+
+- Due to the production of random or pseudo-random numbers, uniqueness is highly likely.
+- There is no requirement for any other background or information.
+
+_Disadvantages:_
+
+- Has no useful data, such as names or timestamps.
+- Large-scale distributed systems may be susceptible to collisions.
+
+**UUIDv5 (Name-based UUID using SHA-1 hashing)**
+
+This variation creates a UUID based on a name and a namespace identification, much as UUIDv3. But instead of MD5, it use the more reliable SHA-1 hashing technique.
+
+> _“8b3a6dd0–96a8–5e9d-bfbe-7b5ba4f9b11d” is an example._
+
+_Advantages:_
+
+- Based on a namespace identifier and a name, generates a deterministic UUID.
+- Uses the SHA-1 hashing technique, which is more secure than MD5.
+
+_Disadvantages:_
+
+- Restricted to SHA-1’s singularity and collision resistance.
+- In some circumstances, SHA-1 is regarded as less secure.
+
+**UUIDv6 (Ordered Time-based UUID)**
+
+Although not yet standardised, this alternative has been suggested as a development above UUIDv1. By using an ordered timestamp in place of the MAC address, it allays certain privacy concerns.
+
+> _“d024c4f2–5192–69b6–87dd-71674cbcd58f” is an example._
+
+_Advantages:_
+
+- MAC addresses are replaced with an ordered timestamp to allay privacy concerns.
+- Retains the benefits of time-based UUIDs for activities that are time-based and for sorting.
+
+_Disadvantages:_
+
+- Not standardised, and UUID generating libraries might not support it widely.
+- Limited adoption and accessibility.
+
+### Snowflake ID
+
+Twitter created the Snowflake ID technique to produce distinctive IDs in dispersed networks. Its 64-bit integers are made up of a timestamp, a worker ID, and a sequence number.
+
+> _For instance, “123456789012345678”_
+
+**Advantages:**
+
+- Snowflake IDs are intended to be distinctive globally across distributed networks. Snowflake IDs can offer a high level of uniqueness by fusing a timestamp, worker ID, and sequence number, which lowers the possibility of clashes.
+- Scalability: The distributed systems-friendly Snowflake ID technique was created with scalability in mind. The addition of a worker ID enables horizontal expansion and enhanced performance by allowing several devices or procedures to produce IDs concurrently without running into conflicts.
+- Chronological Ordering: Snowflake IDs’ timestamp component enables a naturally occurring chronological ordering of the produced IDs. In situations like event recording or time-based data analysis, when keeping the sequence of produced IDs is crucial, this attribute might be useful.
+
+**Disadvantages:**
+
+- Dependency on Worker ID Management: Snowflake IDs depend on allocating and managing distinct worker IDs across distributed systems to provide uniqueness and prevent clashes. As a result, managing and organising worker ID assignments becomes more difficult.
+- Limited Worker Capacity: The number of distinct workers that may create IDs concurrently is constrained by the size of the worker ID component in Snowflake IDs. There may be ID conflicts or a requirement for a bigger ID space if the number of workers exceeds the allocated bits.
+- Potential for Clock Drift: To produce timestamps, snowflake IDs depend on a precise system clock. The ordering and uniqueness of generated IDs may be impacted by clock drift across workstations in distributed settings where clock synchronisation might be difficult.
+
+### GUID (Globally Unique Identifier)
+
+A 128-bit identifier called GUID is frequently used in Microsoft technologies. To ensure global uniqueness, it combines distinctive elements such as the MAC address of the network card and the system timestamp.
+
+> _“21EC2020–3AEA-4069-A2DD-08002B30309D,” for instance._
+
+**Advantages:**
+
+- Worldwide Uniqueness: GUIDs are intended to provide worldwide uniqueness by fusing distinctive elements like the MAC address of the network card and the system timestamp. Data integrity is improved and collisions between distributed systems are less likely as a result.
+- GUIDs have a standardised format, which is commonly expressed as a series of alphanumeric characters separated by hyphens or other delimiters. This format facilitates the use of GUIDs and guarantees platform and system compatibility.
+- Widely Supported: A number of Microsoft technologies and frameworks support GUIDs. They are accessible to developers on several platforms since they are natively supported in languages like C# and are also available through libraries and modules in other languages.
+
+**Disadvantages:**
+
+- Readability and Length: Because GUIDs are 128-bit identifiers, they may have longer strings than other identifier formats. This may affect how readable and useful GUIDs are, particularly in circumstances where human readability is crucial.
+- Deterministic Generation: Based on distinctive elements like MAC address and system timestamp, GUIDs are formed. Because it discloses information about the system’s network card and maybe the generation time, this deterministic generation may give rise to privacy problems.
+- Storage Space: Compared to alternative identifier forms, such as integer-based sequential IDs, storing GUIDs as primary keys in databases might take up more space. This increased storage need may have an influence on database speed, particularly when there is a lot of data to store and a lot of transactional activity.
+
+### ObjectId (MongoDB)
+
+MongoDB uses the 12-byte identifier ObjectId to specifically identify each document in a collection. Time stamp, machine identification, process identifier, and sequence number are all included.
+
+> _“60bba8740cd0f93d36e9eaf5” is an example._
+
+**Advantages:**
+
+- Uniqueness: A MongoDB collection’s identifiers are guaranteed to be unique by ObjectId. A timestamp, machine identification, process identifier, and sequence number are all included in each ObjectId and work together to make each one unique.
+- Automatic Generation: When a document is inserted into MongoDB, ObjectIds are automatically generated, negating the requirement for manual identifier generation. This streamlines development and lessens the possibility of identifier clashes.
+- Documents may be arranged chronologically thanks to the timestamp component of the ObjectId. When obtaining data in a time-based sequence or running time-based queries, this might be helpful.
+
+**Disadvantages:**
+
+- Unique to MongoDB: ObjectId is only compatible with MongoDB and might not work with other database systems. The ObjectId format may need to be converted or mapped if you need to integrate with a different database or move to a new one.
+- Non-consecutive Sequence: ObjectId has a sequence number, but because it also contains timestamps and process IDs, it does not guarantee consecutive data. This may affect how predictable operations based on sequences are.
+- Large Storage Possibility: ObjectId takes 12 bytes of storage for each identifier, which is often more than other identifier forms like integers. This might result in higher storage needs in instances involving large amounts of data storage.
+
+### Flake ID (Twitter’s Snowflake-inspired ID)
+
+A variation of Twitter’s Snowflake algorithm is called Flake ID. Scalability in distributed systems is made possible by the generation of 64-bit IDs that include a timestamp, worker ID, data centre ID, and sequence number.
+
+> _For instance, “183140978932858368”_
+
+**Advantages:**
+
+- Scalability in distributed systems is a goal of flake ID design. Flake IDs may produce distinct identifiers across different computers or processes without colliding by incorporating elements such a timestamp, worker ID, data centre ID, and sequence number. This scalability is especially helpful in situations involving distributed infrastructures and high data flow.
+- Ordering: Because Flake IDs have a timestamp component, the produced IDs can be arranged in a chronologically reasonable way. When processing data that calls for maintaining the sequence of activities or when performing time-based analysis, this might be helpful.
+- Storage Efficiency: When compared to lengthier identification forms, flake IDs, which are 64-bit integers, allow for more effective storage. When it comes to situations where storage space optimisation is crucial, especially when working with huge amounts of data, Flake IDs’ concise representation might be useful.
+
+**Disadvantages:**
+
+- Dependency on Unique ID Assignments: To provide uniqueness across distributed systems, flake IDs require effective administration and assignment of unique worker IDs and data centre IDs. The infrastructure of the system becomes more complicated and labor-intensive due to this management.
+- Limited Precision: Flake IDs use a 64-bit format, which gives each component (such as the date and worker ID) a limited range. In some usage instances, when more accuracy is required for particular components, this restricted precision might be a drawback.
+- Dependency on System Time: The reliability of Flake IDs depends on the generation of timestamps by a precise system clock. The sequence and uniqueness of produced IDs might be affected by problems like clock synchronisation and clock drift across workstations.
+
+### ULID (Universally Unique Lexicographically Sortable Identifier)
+
+A 128-bit identifier called ULID combines lexicographic sortability with the UUIDs’ ability to be uniquely identified. Chronological sorting is made possible by its 48-bit timestamp and 80-bit random component.
+
+> _“01F9A2VX4XYPJVQRWJ8DYB3SFV” is an example._
+
+**Advantages:**
+
+- Similar to UUIDs, ULIDs offer a high level of uniqueness that makes it extremely improbable that created identifiers would collide. They are distinctive across distributed systems because of the addition of a timestamp and a random element.
+- Lexicographic Sortability: ULIDs are made to be lexicographically sortable, making it simple to sort and query data according to when it was created. This is especially helpful in situations when it’s crucial to retain the chronological order of events or data items.
+- Compact Representation: When compared to lengthier identifier formats, ULIDs are smaller since they are expressed as 128-bit identifiers. As a result, they are effective for both storage and transmission, particularly when handling enormous amounts of data.
+
+**Disadvantages:**
+
+- Complexity of Timestamp Component: A timestamp component is present in ULIDs, and it depends on an external time source to maintain precise time. Implementation complexity may increase by requiring synchronised and precise timestamps across remote systems.
+- Reliance on Randomness: To assure uniqueness, ULIDs contain a random element. Strong random values must be generated from a trustworthy source of randomness, which may result in additional computing work and dependency on random number generating tools.
+
+### Conclusion
+
+In conclusion, Snowflake IDs are unrivalled in the interesting field of unique ID algorithms, offering unrivalled global uniqueness, scalability, and the capacity to preserve chronological order. However, navigating the implementation process necessitates skillful management of worker IDs, consideration of the workforce, and clock synchronisation. It’s time to choose which unique ID algorithm you’ll use to sculpt the identity of your projects as you consider the options. What standards will you use to make a decision? Explore your alternatives, weigh the trade-offs, and unlock the unique potential of your code. What unique ID algorithm are you going to use for your upcoming project?
+
+Feel free to **give me feedback or ask me questions** here using the comment function. Happy coding!

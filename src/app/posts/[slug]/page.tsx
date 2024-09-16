@@ -62,7 +62,7 @@ const PostLayout = ({ params }: { params: { slug: string } }) => {
             <h1 className="text-3xl font-bold my-8">{post.title}</h1>
             {post.cover && (
               <div
-                className="aspect-video"
+                className="aspect-video bg-cover bg-center"
                 style={{
                   background: `url(${post.cover})`,
                 }}
