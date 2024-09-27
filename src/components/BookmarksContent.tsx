@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Bookmark } from "contentlayer/generated";
 import { X } from "lucide-react";
 import Masonry from "react-masonry-css";
@@ -18,6 +18,7 @@ export const BookmarksContent: React.FC<Props> = ({ bookmarks }) => {
     ...new Set(bookmarks.flatMap((bookmark) => bookmark.tags)),
   ];
   const categories = ["All", "developer", "ux/ui designer", "ai engineer"];
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const filteredBookmarks = bookmarks.filter(
     (bookmark) =>
@@ -36,10 +37,21 @@ export const BookmarksContent: React.FC<Props> = ({ bookmarks }) => {
     640: 1,
   };
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Sticky header with filter */}
-      <header className="sticky top-0 bg-white shadow-md z-10">
+      <header className={`header ${isScrolled ? "sticky-header" : ""}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <select
