@@ -2,7 +2,7 @@ import { defineDocumentType, makeSource } from "contentlayer/source-files";
 
 export const Post = defineDocumentType(() => ({
   name: "Post",
-  filePathPattern: `**/*.mdx`,
+  filePathPattern: `posts/**/*.mdx`,
   contentType: "mdx",
   fields: {
     title: { type: "string", required: true },
@@ -22,4 +22,25 @@ export const Post = defineDocumentType(() => ({
   },
 }));
 
-export default makeSource({ contentDirPath: "posts", documentTypes: [Post] });
+export const Bookmark = defineDocumentType(() => ({
+  name: "Bookmark",
+  filePathPattern: `bookmarks/**/*.mdx`,
+  contentType: "mdx",
+  fields: {
+    title: { type: "string", required: true },
+    description: { type: "string", required: false },
+    date: { type: "date", required: true },
+    image: { type: "string", required: false },
+    url: { type: "string", required: false },
+    category: { type: "string", required: true },
+    tags: { type: "list", of: { type: "string" }, required: false },
+    featured: { type: "boolean", required: false },
+  },
+}));
+
+export default makeSource({
+  contentDirPath: ".",
+  contentDirInclude: ["posts", "bookmarks"],
+  documentTypes: [Post, Bookmark],
+});
+// export default makeSource({ contentDirPath: "posts", documentTypes: [Post] });
