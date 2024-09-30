@@ -10,16 +10,28 @@ export const generateStaticParams = async () =>
   allPosts.map((post) => ({ slug: post._raw.flattenedPath }));
 
 export const generateMetadata = ({ params }: { params: { slug: string } }) => {
+  let _slug = decodeURIComponent(params.slug);
+
+  if (_slug.indexOf("posts/") == -1) {
+    _slug = "posts/" + _slug;
+  }
+
   const post = allPosts.find(
-    (post) => post._raw.flattenedPath === `posts/${decodeURI(params.slug)}`
+    (post) => post._raw.flattenedPath === decodeURIComponent(_slug)
   );
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
   return { title: post.title };
 };
 
 const PostLayout = ({ params }: { params: { slug: string } }) => {
+  let _slug = decodeURIComponent(params.slug);
+
+  if (_slug.indexOf("posts/") == -1) {
+    _slug = "posts/" + _slug;
+  }
+
   const post = allPosts.find(
-    (post) => post._raw.flattenedPath === `posts/${decodeURI(params.slug)}`
+    (post) => post._raw.flattenedPath === decodeURIComponent(_slug)
   );
   if (!post) throw new Error(`Post not found for slug: ${params.slug}`);
 

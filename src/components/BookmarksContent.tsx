@@ -49,7 +49,6 @@ export const BookmarksContent: React.FC<Props> = ({ bookmarks }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        console.log(entry);
         setIsAtTop(entry.boundingClientRect.top <= 0);
       },
       { threshold: 1.0, rootMargin: "-1px 0px 0px 0px" }
@@ -65,8 +64,6 @@ export const BookmarksContent: React.FC<Props> = ({ bookmarks }) => {
       }
     };
   }, [navRef]);
-
-  console.log(isAtTop);
 
   return (
     <div className="min-h-screen">
