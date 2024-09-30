@@ -62,7 +62,7 @@ export default function Home() {
           <div className="py-16 md:py-24 max-w-container mx-auto flex flex-col items-center gap-6 lg:gap-8 md:flex-row">
             <div className="z-[2] flex-1 flex flex-col gap-4 md:gap-6 justify-center  mx-auto items-center text-center">
               <FeBlog />
-              <h3 className="font-semibold tracking-tight text-3xl md:text-4xl  mt-[-84px] leading-10 md:leading-[3rem]">
+              <h3 className="font-semibold tracking-tight text-3xl md:text-4xl  md:mt-[-84px] leading-10 md:leading-[3rem]">
                 dev, design, and more
               </h3>
               <p className="text-gray-600 text-lg md:text-xl">

@@ -10,10 +10,6 @@ const SelectionPage = () => {
     compareDesc(new Date(a.date), new Date(b.date))
   );
 
-  // const allTags = Array.from(
-  //   new Set(bookmarks.flatMap((post) => post.tags))
-  // ).filter(Boolean) as string[];
-
   return <BookmarksContent bookmarks={bookmarks} />;
 };
 
