@@ -13,3 +13,5 @@ https://trigger.dev/
 https://modal.com/
 https://neon.tech/
 https://magicui.design/
+https://upstash.com/
+https://signoz.io/
