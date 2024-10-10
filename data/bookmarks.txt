@@ -15,3 +15,8 @@ https://neon.tech/
 https://magicui.design/
 https://upstash.com/
 https://signoz.io/
+https://fly.io/
+https://novu.co/
+https://infisical.com/
+https://resend.com/
+https://react.email/
