@@ -20,3 +20,4 @@ https://novu.co/
 https://infisical.com/
 https://resend.com/
 https://react.email/
+https://replicate.com/
